@@ -17,10 +17,11 @@ result = urlopen(
 championData = json.loads(result.read())
 allChamps = championData['data']
 
+champSpellDict = {}
 for k,v in allChamps.iteritems():
 	print k
+	spellDict = {}
 	for s in v['spells']:
-		print "Name" 
 		print s['name']
 		print "Cooldown" 
 		print s['cooldown']

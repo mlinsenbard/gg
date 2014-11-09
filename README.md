@@ -6,12 +6,13 @@ The 'efficiency' of a spell is going to be interpreted as the damage per second 
 
 The highest CD spell of 180s (Karthus' lvl1 Ult) will be used as a baseline for calculating the DPS of all other spells.
 
-Later iterations of this program may attempt to offer more accuracies in terms of using the champions' default HP/AD/ARMR/MR/AS values 
-when calculating spell damage.
+This program may be improved on with later iterations to take more variables into consideration.
 
 ## Known Inaccuracies
 
-* Any spell that calculates damage based on % AD rather than Flat AD will be calculated as if it were Flat AD.
-* All spell damage is calculated as if it affects only 1 target. (For example, Brand's Pyroclasm will only hit once.)
-* Spells that increase attack damage or attack speed are not being considered as damaging spells.
+* Any spell that calculates damage based on % AD rather than Flat AD will be calculated as if it were Flat AD since no discretion between the two is available.
+* All spell damage is calculated as if it affects only 1 target. For example, Brand's Pyroclasm will only bounce once.
+* Spells that do not directly inflict damage are not being considered as damaging spells. i.e. Abilities lacking a label of "Damage" are not considered.
 * Spells that deal % HP damage will be calculated as if the target and host have 2000HP.
+* Costs would normally be considered when calculating 'efficiency', but many spells have no costs, or use some other type of self regenerating cost type. So, spell costs are being left out for now.
+* All spells are being calculated at maximum level.

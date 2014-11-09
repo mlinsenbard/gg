@@ -91,7 +91,8 @@ def main():
 		if userInput in AFFIRMATIVE:
 			variableTuple = getInputValues()
 			try:
-				spell = sm.mostEfficient(variableTuple)
+				result = sm.mostEfficient(variableTuple)
+				print "For the given values, " + result[0]['name'] + " is the most efficient spell with " + str(result[1]) + ' DPS.'
 			except Exception,e:
 				print "Something went terribly wrong!"
 				print e

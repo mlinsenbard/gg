@@ -30,31 +30,64 @@ ALL_CHAMPS = json.loads(result.read())['data']
 # highest DPS given AD/AP/CDR
 #############################
 def mostEfficient(values):
-	champSpellDict = {}
+	bestSpell = {}
+	bestSpellDPS = 0
 
 	for k,v in ALL_CHAMPS.iteritems():
-		spellDict = {}
 		for s in v['spells']:
 			try:
-				for l in s['leveltip']['label']:
+				for i,l in enumerate(s['leveltip']['label']):
 					if 'Damage' in l:
-						spellDict[s["name"]] = s
-			except Exception:
-				pass
-		champSpellDict[k] = spellDict
+						print 'Found a damaging spell'
+						maxLevel = int(s['maxrank'])
+						print 'Level:'
+						print maxLevel
+						# i is our index for leveltip/effect
+						# Get the effect index to get damage for our spell
+						for c in s['leveltip']['effect'][i]:
+							if c.isnumeric():
+								damageIndex = int(c)
+								break
+						print 'Damage Index:'
+						print damageIndex
+						# Using the maxlevel var and index, get our base damage value for the spell
+						damageVal = float(s['effect'][damageIndex][maxLevel-1])
+						print "Damage:"
+						print damageVal
+						cooldown = int(s['cooldown'][maxLevel-1])
+						print "Cooldown:"
+						print cooldown
 
-	# TESTING
-	for k,v in champSpellDict.iteritems():
-		print k
-		for s,d in v.iteritems():
-			print s
-			print [x for x in d['leveltip']['label'] if 'Damage' in x]
-			print d['maxrank']
-			print d['leveltip']['effect']
-			print d['effect']
-			print d['cooldown']
-		print ''
-	return 0
+						# Using the 'vars' key in the spell, get our ap/ad ratios
+						# NOTE: For spells that have more than 1 coeff for varying effects, this method is 
+						# terribly inaccurate. Considering such differences will take a massive amount of time
+						# and is not currently being implemented
+						apRatio = 0
+						adRatio = 0
+						for var in s['vars']:
+							if 'attackdamage' in var['link']:
+								adRatio = float(var['coeff'][0])
+							elif 'spelldamage' in var['link']:
+								apRatio = float(var['coeff'][0])
+						print "AD Ratio:"
+						print adRatio
+						print "AP Ratio"
+						print apRatio
+						# We have our damage, cooldown, and ratios. Time to calculate dps
+						totalDamage = damageVal + (apRatio * values[AP]) + (adRatio * values[AD])
+						print "Total Damage:"
+						print totalDamage
+						dps = totalDamage/(cooldown-(cooldown*(values[CDR]/100)))
+						print "DPS:"
+						print dps
+						if dps > bestSpellDPS:
+							bestSpellDPS = dps
+							bestSpell = s
+
+			except Exception,e:
+				print e
+	print bestSpell
+	return (bestSpell, bestSpellDPS)
 
 
 

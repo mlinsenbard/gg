@@ -4,7 +4,7 @@ gg
 A program that, given AP, AD, and CDR values, calculates the most 'efficient' spell in the game League of Legends.
 The 'efficiency' of a spell is going to be interpreted as the damage per second that spell can inflict to a single target.
 
-The highest CD spell of 180s (Karthus' lvl1 Ult) will be used as a baseline for calculating the DPS of all other spells.
+DPS is calculated by taking the amount of damage the spell does to one target, and dividing it by its cooldown. This does mean that channeled spells have somewhat of an advantage, but in terms of efficiency, this is a proper assumption.
 
 This program may be improved on with later iterations to take more variables into consideration.
 

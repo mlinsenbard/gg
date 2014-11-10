@@ -61,14 +61,14 @@ def getInputValues():
 				inputValid = True
 
 	inputValid = False
-	cdr = raw_input('\nEnter a number from 0-100 representing your desired CDR %: ')
+	cdr = raw_input('\nEnter a number from 0-40 representing your desired CDR %: ')
 	while not inputValid:
 		if any(c.isalpha() for c in cdr):
-			cdr = raw_input('\nEnter a number (not a letter!) from 0-100 representing your desired CDR %: ')
+			cdr = raw_input('\nEnter a number (not a letter!) from 0-40 representing your desired CDR %: ')
 		else:
 			cdr = float(cdr)
-			if cdr < 0 or cdr > 100:
-				cdr = raw_input('\nEnter a positive number from 0-100 representing your desired CDR %: ')
+			if cdr < 0 or cdr > 40:
+				cdr = raw_input('\nEnter a positive number from 0-40 representing your desired CDR %: ')
 			else:
 				inputValid = True
 

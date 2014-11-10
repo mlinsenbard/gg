@@ -1,6 +1,7 @@
 from urllib2 import urlopen
 import ast
 import json
+from sm_special import SPECIAL_SPELLS, DISREGARDED_SPELLS
 
 ###########
 # GLOBALS #
@@ -19,25 +20,7 @@ allChamps = championData['data']
 
 champSpellDict = {}
 for k,v in allChamps.iteritems():
-	print k
 	spellDict = {}
 	for s in v['spells']:
-		print s['name']
-		print "Cooldown" 
-		print s['cooldown']
-		try:
-			print 'Vars' 
-			print s['vars']
-		except Exception:
-			print "Spell has no Variables"
-		try:
-			print "Level Info" 
-			print s['leveltip']
-		except Exception:
-			print "Spell has no effects"
-		try:
-			print "Effects per level" 
-			print s['effectBurn']
-		except Exception:
-			print "Spell has no effect vals"
-		print ''
+		if s['name'] not in DISREGARDED_SPELLS:
+			print s['name']

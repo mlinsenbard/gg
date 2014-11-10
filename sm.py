@@ -38,7 +38,8 @@ def mostEfficient(values):
 			try:
 				for i,l in enumerate(s['leveltip']['label']):
 					if 'Damage' in l:
-						print 'Found a damaging spell'
+
+						print 'Found a damaging spell: ' + s['name']
 						maxLevel = int(s['maxrank'])
 						print 'Level:'
 						print maxLevel
@@ -58,17 +59,20 @@ def mostEfficient(values):
 						print "Cooldown:"
 						print cooldown
 
-						# Using the 'vars' key in the spell, get our ap/ad ratios
-						# NOTE: For spells that have more than 1 coeff for varying effects, this method is 
-						# terribly inaccurate. Considering such differences will take a massive amount of time
-						# and is not currently being implemented
 						apRatio = 0
 						adRatio = 0
-						for var in s['vars']:
-							if 'attackdamage' in var['link']:
-								adRatio = float(var['coeff'][0])
-							elif 'spelldamage' in var['link']:
-								apRatio = float(var['coeff'][0])
+						try:
+							for var in s['vars']:
+								if 'attackdamage' in var['link'] and adRatio == 0:
+									adRatio = float(var['coeff'][0])
+								elif 'spelldamage' in var['link'] and apRatio == 0:
+									apRatio = float(var['coeff'][0])
+								elif 'bonusattackdamage' in var['link'] and adRatio == 0:
+									adRatio = float(var['coeff'][0])
+						except:
+							# Spell has no coeffs
+							pass
+
 						print "AD Ratio:"
 						print adRatio
 						print "AP Ratio"
@@ -83,10 +87,10 @@ def mostEfficient(values):
 						if dps > bestSpellDPS:
 							bestSpellDPS = dps
 							bestSpell = s
+						break
 
 			except Exception,e:
 				print e
-	print bestSpell
 	return (bestSpell, bestSpellDPS)
 
 

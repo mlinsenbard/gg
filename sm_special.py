@@ -9,7 +9,8 @@ from sm import AD,AP,CDR
 # FUNCTIONS #
 #############
 
-# All constants were taken from their max level
+# All magic numbers were taken from reading the API or from
+# gameinfo.na.leagueoflegends.com
 # Cyclone
 def sm_sp1(values):
 	damage = 800 + values[AD]*1.1 # base + 1.1*AD
@@ -581,6 +582,79 @@ def sm_sp68(values):
 	dps = damage / (cd - (cd * (values[CDR]/100)))
 	return dps
 
+# Electro Harpoon
+def sm_sp69(values):
+	# Calculate 2 harpoon hits for damage
+	damage = (145 * values[AP]*0.4) * 2
+	cd = 10
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# The Equalizer
+def sm_sp70(values):
+	# spell does damage over 5s
+	# damage = dps * time active (5s)
+	damage = (240 + values[AP]*0.3) * 5
+	cd = 75
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Crystal Slash
+def sm_sp71(values):
+	# Assume skarner is never charged
+	damage = 58 + values[AD]*0.8
+	cd = 3.5
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Impale
+def sm_sp72(values):
+	# impale damage procs twice
+	damage = (200 + values[AP]*0.5) * 2
+	cd = 90
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Noxious Trap
+def sm_sp73(values):
+	# cooldown is definitely not 1s
+	# cd = time to regen 1 shroom
+	damage = 450 + values[AP]*0.5
+	cd = 27
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# H-28G Evolution Turret
+def sm_sp74(values):
+	# Assuming 2 attacks per second (no AS given from desc)
+	# 6.25% beam charge regenerated each second (100/16s)
+	# 5% charge with each shot, so 16.25% every second is generated
+	# 100/16.25 = 6.12 seconds to charge beam.
+	# dps = turrent shot dps + charge beam dps
+	# None of these variables are affected by CDR
+	dps = ((34 + values[AP]*0.15)*2) + ((130 + values[AP]*0.55) / 6.12)
+	return dps
+
+# UPGRADE!!!
+def sm_sp75(values):
+	# Calculate damage for each enhanced ability, then return maximum
+	# H-28Q Apex Turret
+	# Assume 1 attack per second, only 1 beam occurs over spawn period
+	# turret damage = 8 * attack damage + beam damage
+	turret = ((120 + values[AP]*0.3) * 8) + (340 + values[AP]*0.7)
+	# Hextech Rocket Swarm
+	# Assume max damage happens
+	rockets = 865 + values[AP]*1.83
+	# CH-3X Lightning Grenade
+	# only hit by 1 bounce (target assumed to be immobile)
+	grenade = 250 + values[AP]*0.6
+	damage = max(turret, rockets, grenade)
+	cd = 90
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+
+
 SPECIAL_SPELLS = {  
 	"Cyclone": sm_sp1,
 	"Infinite Duress": sm_sp2,
@@ -649,38 +723,14 @@ SPECIAL_SPELLS = {
 	"Phoenix Stance": sm_sp65,
 	"Piercing Light": sm_sp66,
 	"The Culling": sm_sp67,
-	"Decimate": sm_sp68, 
-	"Apprehend"
-	Noxian Guillotine
-	Duskbringer
-	Unspeakable Horror
-	Paranoia
-	Time Bomb
-	Conquering Sands
-	Arise!
-	Shifting Sands
-	Emperor's Divide
-	Flamespitter
-	Scrap Shield
-	Electro Harpoon
-	The Equalizer
-	Crystal Slash
-	Fracture
-	Impale
-	Blinding Dart
-	Noxious Trap
-	Acid Hunter
-	Noxian Corrosive Charge
-	Bandage Toss
-	Despair
-	Tantrum
-	Curse of the Sad Mummy
-	Resolute Smite
-	Righteous Gust
-	H-28G Evolution Turret
-	Hextech Micro-Rockets
-	CH-2 Electron Storm Grenade
-	UPGRADE!!!
+	"Decimate": sm_sp68,
+	"Electro Harpoon": sm_sp69,
+	"The Equalizer": sm_sp70,
+	"Crystal Slash": sm_sp71,
+	"Impale": sm_sp72,
+	"Noxious Trap": sm_sp73,
+	"H-28G Evolution Turret": sm_sp74,
+	"UPGRADE!!!": sm_sp75,
 	Volley
 	Enchanted Crystal Arrow
 	Plasma Fission
@@ -805,6 +855,7 @@ DISREGARDED_SPELLS = [
 	"Aegis Protection",
 	"Ambush",
 	"Apprehend",
+	"Arise!",
 	"Arcane Mastery",
 	"Aria of Perseverance",
 	"Aspect Of The Cougar",
@@ -1013,7 +1064,7 @@ DISREGARDED_SPELLS = [
 	"Safeguard / Iron Will",
 	"Salvation",
 	"Sap Magic",
-	"Scrap Sheild",
+	"Scrap Shield",
 	"Seastone Trident",
 	"Shadow Dash",
 	"Shadow Walk",
@@ -1097,4 +1148,6 @@ DISREGARDED_SPELLS = [
 	"Rolling Thunder",
 	"Thunder Claws",
 	"Crippling Strike",
+	# Doesnt deal damage
+	"Apprehend",
 ]

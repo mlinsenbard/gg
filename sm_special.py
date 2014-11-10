@@ -339,9 +339,244 @@ def sm_sp39(values):
 	return dps
 
 # Twin Fang
-def sm_sp38(values):
+def sm_sp40(values):
 	# AP Scaling changes with level
 	damage = 155 * values[AP]*0.55
+	cd = 5
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Taste Their Fear
+def sm_sp41(values):
+	# Single targe damage increased
+	damage = 221 + values[AD]*1.56
+	cd = 3
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Sapling Toss
+def sm_sp42(values):
+	# Spell has 2 damage periods
+	# Damage = landing + exlposion
+	damage = (120 + values[AP]*0.4) + (240 + values[AP]*0.6)
+	cd = 12
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Vengeful Maelstrom
+def sm_sp43(values):
+	# Assume no stored bonus damage is done
+	damage = 200 + values[AP]*0.5
+	cd = 20
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Flay
+def sm_sp44(values):
+	# Only consider active damage
+	damage = 185 + values[AP]*0.4
+	cd = 9
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Force of Will
+def sm_sp45(values):
+	# Cooldown listed as 0 since ability has 2 casts
+	damage = 240 + values[AP]*0.7
+	cd = 8
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Unleashed Power
+def sm_sp46(values):
+	# Use minimum damage in calculation.
+	# All calculations assume no previous spell was cast
+	damage = 540 + values[AP]*0.6
+	cd = 80
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Burning Agony
+def sm_sp47(values):
+	# Since spell can be channeled indefinitely
+	# damage/sec = dps
+	dps = 95 + values[AP]*0.2
+	return dps
+
+# Mantra
+def sm_sp48(values):
+	# Spell modifier. Calculate dps of each modified spell. Return best
+	#Inner Flame total dmg
+	inner = (260 + values[AP]*0.6) + (175 + values[AP]*0.3) + (350 + values[AP]*0.6)
+	# Focused Resolve total dmg
+	focused = (260 + values[AP]*0.6) + (300 + values[AP]*0.6)
+	# Inspire
+	inspire = 300 + values[AP]*0.6
+	# Best dps is max damaging mantra spell
+	damage = max(inner,focused,inspire)
+	cooldown = 36
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Summon: Tibbers
+def sm_sp49(values):
+	# damage = cast damage + Damage over time
+	damage = (425 + values[AP]*0.8) + ((35 + values[AP]*0.2) * 45)
+	cd = 80
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Mark of the Assassin
+def sm_sp50(values):
+	# Only consider casting damage, not activation damage
+	damage = 115 + values[AP]*0.4
+	cd = 4
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Shadow Dance
+def sm_sp51(values):
+	# Use 15s generation of 'jumps' for dps cd
+	damage = 250 + values[AP]*0.5
+	cd = 15
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Sweeping Blade
+def sm_sp52(values):
+	# Use mark length as CD
+	damage = 150 + values[AP]*0.6
+	cd = 6
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Last Breath
+def sm_sp53(values):
+	# API Data doesn't have CD in expected place
+	damage = 400 + values[AD]*1.5
+	cd = 30
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Slicing Maelstrom
+def sm_sp54(values):
+	# Hits maximum of 3 times
+	damage = (210 + values[AP]*0.4) * 3
+	cd = 120
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# None of Rengar's spells have CD's under
+# the 'cooldown' key
+# Savagery
+def sm_sp55(values):
+	damage = 150 + values[AD]*1.2
+	cd = 4
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Battle Roar
+def sm_sp56(values):
+	damage = 170 + values[AP]*0.8
+	cd = 12
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Bola Strike
+def sm_sp57(values):
+	damage = 250 + values[AD]*0.7
+	cd = 10
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Let's Bounce
+def sm_sp58(values):
+	# 4 bounces, last 3 do .5 times damage
+	damage = (280 + values[AP]*0.4) + ((280 + values[AP]*0.4) * .5) * 3
+	cd = 100
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Heartseeker Strike
+def sm_sp59(values):
+	# 3 strikes, 2x damage to champs = base * 6
+	# assume target is champ for max damage
+	damage = (53 + values[AD]*0.6) * 6
+	cd = 6
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Decrepify
+def sm_sp60(values):
+	# DOT. Damage = total dot = dps * time active
+	damage = (85 + values[AP]*0.3) * 3
+	cd = 8
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Ravenous Flock
+def sm_sp61(values):
+	# Inifinitely Channeled. DPS = Damage per sec
+	# Only 1 raven per enemy
+	dps = 90 + values[20]
+	return dps
+
+# Spirit Fire
+def sm_sp62(values):
+	# Initial damage + DPS
+	damage = (215 + values[AP]*0.6) + ((43 + values[AP]*.12)*5)
+	cd = 12
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Fury of the Sands
+def sm_sp63(values):
+	# aoe damage. Use max damage per sec. value
+	# damage = dps * time active
+	damage = 240 * 15
+	cd = 120
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Feast
+def sm_sp64(values):
+	# Target is a champion. Using those values
+	damage = 650 + values[AP]*0.7
+	cd = 60
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Phoenix Stance
+def sm_sp65(values):
+	# activated pulse damage
+	damage = (55 + values[AP]*0.25) * 5
+	cd = 6
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Piercing Light
+def sm_sp66(values):
+	# data parsing failed for this api entry
+	# using base dmg + 120% AD
+	damage = 200 + values[AD]*1.2
+	cd = 5
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# The Culling
+def sm_sp67(values):
+	# with no attack speed mods, 15 shots are fired
+	# damage = dmg per shot * 15
+	damage = (60 + values[AP]*.1 + values[AD]*0.25) * 15
+	cd = 90
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Decimate 
+def sm_sp68(values):
+	# Using maximum possible damage
+	# damage = damage * 1.5 (assume target is hit by blade)
+	damage = (210 + values[AD]*0.7) * 1.5
 	cd = 5
 	dps = damage / (cd - (cd * (values[CDR]/100)))
 	return dps
@@ -387,98 +622,35 @@ SPECIAL_SPELLS = {
 	"Chaos Storm": sm_sp38,
 	"Miasma": sm_sp39,
 	"Twin Fang": sm_sp40,
-	Arcane Smash
-	Twisted Advance
-	Sapling Toss
-	Vengeful Maelstrom
-	Death Sentence
-	Flay
-	The Box
-	Reckoning
-	Rampage
-	Spirit of Dread
-	Devastating Charge
-	Onslaught of Shadows
-	Taste Their Fear
-	Void Spike
-	Leap
-	Undertow
-	Reckless Swing
-	Bouncing Bomb
-	Satchel Charge
-	Hexplosive Minefield
-	Mega Inferno Bomb
-	Dark Sphere
-	Force of Will
-	Scatter the Weak
-	Unleashed Power
-	Infected Cleaver
-	Burning Agony
-	Inner Flame
-	Focused Resolve
-	Mantra
-	Disintegrate
-	Incinerate
-	Summon: Tibbers
-	Mark of the Assassin
-	Crescent Slash
-	Shadow Dance
-	Shield of Daybreak
-	Eclipse
-	Zenith Blade
-	Solar Flare
-	Steel Tempest
-	Sweeping Blade
-	Last Breath
-	Thundering Shuriken
-	Electrical Surge
-	Lightning Rush
-	Slicing Maelstrom
-	Savagery
-	Battle Roar
-	Bola Strike
-	Overload
-	Spell Flux
-	Vorpal Blade
-	Stretching Strike
-	Unstable Matter
-	Elastic Slingshot
-	Let's Bounce!
-	Spear Shot
-	Aegis of Zeonia
-	Heartseeker Strike
-	Grand Skyfall
-	Decrepify
-	Nevermove
-	Torment
-	Ravenous Flock
-	Decimating Smash
-	Roar of the Slayer
-	Unstoppable Onslaught
-	Condemn
-	Siphoning Strike
-	Spirit Fire
-	Fury of the Sands
-	Wild Cards
-	Pick A Card
-	Stacked Deck
-	Feral Scream
-	Feast
-	Tiger Stance
-	Phoenix Stance
-	Piercing Light
-	Ardent Blaze
-	The Culling
-	Rolling Thunder
-	Majestic Roar
-	Thunder Claws
-	Piltover Peacemaker
-	Yordle Snap Trap
-	90 Caliber Net
-	Ace in the Hole
-	Decimate
-	Crippling Strike
-	Apprehend
+	"Taste Their Fear": sm_sp41,
+	"Sapling Toss": sm_sp42,
+	"Vengeful Maelstrom": sm_sp43,
+	"Flay": sm_sp44,
+	"Force of Will": sm_sp45,
+	"Unleashed Power": sm_sp46,
+	"Burning Agony": sm_sp47,
+	"Mantra": sm_sp48,
+	"Summon: Tibbers": sm_sp49,
+	"Mark of the Assassin": sm_sp50,
+	"Shadow Dance": sm_sp51,
+	"Sweeping Blade": sm_sp52,
+	"Last Breath": sm_sp53,
+	"Slicing Maelstrom": sm_sp54,
+	"Savagery": sm_sp55,
+	"Battle Roar": sm_sp56,
+	"Bola Strike": sm_sp57,
+	"Let's Bounce!": sm_sp58,
+	"Heartseeker Strike": sm_sp59,
+	"Decrepify": sm_sp60,
+	"Ravenous Flock": sm_sp61,
+	"Spirit Fire": sm_sp62,
+	"Fury of the Sands": sm_sp63,
+	"Feast": sm_sp64,
+	"Phoenix Stance": sm_sp65,
+	"Piercing Light": sm_sp66,
+	"The Culling": sm_sp67,
+	"Decimate": sm_sp68, 
+	"Apprehend"
 	Noxian Guillotine
 	Duskbringer
 	Unspeakable Horror
@@ -632,6 +804,7 @@ DISREGARDED_SPELLS = [
 	"Adrenaline Rush",
 	"Aegis Protection",
 	"Ambush",
+	"Apprehend",
 	"Arcane Mastery",
 	"Aria of Perseverance",
 	"Aspect Of The Cougar",
@@ -672,6 +845,7 @@ DISREGARDED_SPELLS = [
 	"Cocoon / Rappel",
 	"Command: Protect",
 	"Concussive Blows",
+	"Consume",
 	"Contaminate",
 	"Contempt for the Weak",
 	"Courage",
@@ -833,7 +1007,6 @@ DISREGARDED_SPELLS = [
 	"Rune Prison",
 	"Runic Blade",
 	"Runic Skin",
-	"Rupture",
 	"Ruthless Predator",
 	"Sadism",
 	"Safeguard",
@@ -916,4 +1089,12 @@ DISREGARDED_SPELLS = [
 	"Thundering Blow / Acceleration Gate",
 	"Twin Bite",
 	"Dragon's Descent",
+	# Added since dmg is based off of % Enemy hp
+	"Twisted Advance",
+	# DPS is based of attack speed; an unknown variable
+	"Stacked Deck",
+	"Tiger Stance",
+	"Rolling Thunder",
+	"Thunder Claws",
+	"Crippling Strike",
 ]

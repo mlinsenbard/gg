@@ -3,11 +3,11 @@ Spellimobulator
 
 A program that, given AP, AD, and CDR values, calculates the most 'efficient' activated spell in the game League of Legends.
 
-The 'efficiency' of a spell is going to be interpreted as the damage per second that spell can inflict to a single target.
+The 'efficiency' of a spell is going to be interpreted as the damage per second that spell can inflict to a single target champion.
 
-DPS is calculated by taking the amount of damage the spell does to one target, and dividing it by its cooldown. This means no other abilities or previously activated spells are taken into consideration. Things like Karma and Leblanc's Ultimates will be calculated separately as special condition abilities.
+DPS is calculated by taking the amount of damage the spell does to one target, and dividing it by its cooldown. This means no other abilities or previously activated spells are taken into consideration. Things like Karma's and Leblanc's Ultimates will be calculated separately as special condition abilities.
 
-This does mean that channeled spells have somewhat of an advantage, but in terms of efficiency, this is a proper conclusion.
+This does mean that channeled or toggled spells have somewhat of an advantage, but in terms of efficiency, this is a proper conclusion.
 
 This program may be improved on with later iterations to take more variables into consideration.
 

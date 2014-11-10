@@ -247,7 +247,105 @@ def sm_sp29(values):
 	dps = damage / (cd - (cd * (values[CDR]/100)))
 	return dps
 
-	
+# Burnout
+def sm_sp30(values):
+	# does damage over time
+	# DPS * seconds active
+	damage = (80 + values[AD]*0.2) * 3
+	cd = 12
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Cull The Meek
+def sm_sp31(values):
+	# Does altered damage based on fury; disregarding fury
+	damage = 180 + values[AD]*0.8
+	cd = 8
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Slice and Dice
+def sm_sp32(values):
+	# Does altered damage based on fury; disregarding fury
+	# 2-Step Spell, damage = Slice + Dice
+	damage = (150 + values[AD]*0.9) * 2
+	cd = 14
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Dominus
+def sm_sp33(values):
+	# Does damage over time
+	# Damage = Damage per sec * time active
+	damage = (120 + values[AP]*0.1) * 15
+	cd = 120
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Blade Waltz
+def sm_sp34(values):
+	# Has maximum damage cap
+	damage = 1000 + values[AD]*2.4
+	cd = 110
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Urchin Strike
+def sm_sp35(values):
+	# Does additional 100% AD dmg not listed in vars
+	damage = 130 + values[AP]*0.6 + values[AD]
+	cd = 6
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Riftwalk
+def sm_sp36(values):
+	# Will only be used once every CD period (20s)
+	# its not really feasible to calcuate the dps otherwise
+	damage = 120
+	cd = 20
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Transcendent Blades
+def sm_sp37(values):
+	# Activated 4 times
+	damage = (160 + values[AP]*0.5) * 4
+	cd = 50
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Chaos Storm
+def sm_sp38(values):
+	# Does inital dmg then dmg over time
+	# damage = init + (dps * time active)
+	damage = (350 + values[AP]*0.55) + ((90 + values[AP]*0.55) * 7)
+	cd = 100
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Miasma
+def sm_sp39(values):
+	# damage given in dps
+	# assume target stays in miasma full 7s
+	# target is poisoned for total of 9s
+	# If CD is less than 9, just give dps
+	if (cd - (cd * (values[CDR]/100))) < 9:
+		dps = 30 + values[AP]*0.1
+	else:
+		damage = (30 + values[AP]*0.1) * 9
+		cd = 10
+		dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Twin Fang
+def sm_sp38(values):
+	# AP Scaling changes with level
+	damage = 155 * values[AP]*0.55
+	cd = 5
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
 SPECIAL_SPELLS = {  
 	"Cyclone": sm_sp1,
 	"Infinite Duress": sm_sp2,
@@ -278,41 +376,17 @@ SPECIAL_SPELLS = {
 	"Soul Shackles": sm_sp27,
 	"Boomerang Throw / Boulder Toss": sm_sp28
 	"Hyper / Wallop": sm_sp29,
-	Hop / Crunch
-	GNAR!
-	Light Binding
-	Lucent Singularity
-	Final Spark
-	Twin Bite
-	Burnout
-	Flame Breath
-	Dragon's Descent
-	Cull the Meek
-	Slice and Dice
-	Dominus
-	Lunge
-	Blade Waltz
-	Zap!
-	Flame Chompers!
-	Super Mega Death Rocket!
-	Urchin Strike
-	Playful / Trickster
-	Chum the Waters
-	Null Sphere
-	Force Pulse
-	Riftwalk
-	Hymn of Valor
-	Crescendo
-	Bladesurge
-	Equilibrium Strike
-	Transcendent Blades
-	Siphon Power
-	Death Ray
-	Chaos Storm
-	Noxious Blast
-	Miasma
-	Twin Fang
-	Petrifying Gaze
+	"Burnout": sm_sp30,
+	"Cull the Meek": sm_sp31,
+	"Slice and Dice": sm_sp32,
+	"Dominus": sm_sp33,
+	"Blade Waltz": sm_sp34,
+	"Urchin Strike": sm_sp35,
+	"Riftwalk": sm_sp36,
+	"Transcendent Blades": sm_sp37,
+	"Chaos Storm": sm_sp38,
+	"Miasma": sm_sp39,
+	"Twin Fang": sm_sp40,
 	Arcane Smash
 	Twisted Advance
 	Sapling Toss
@@ -840,4 +914,6 @@ DISREGARDED_SPELLS = [
 	"Zaun-Touched Bolt Augmenter",
 	# Added since dmg is based off of % Enemy HP
 	"Thundering Blow / Acceleration Gate",
+	"Twin Bite",
+	"Dragon's Descent",
 ]

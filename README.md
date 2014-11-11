@@ -9,6 +9,14 @@ DPS is calculated by taking the amount of damage the spell does to one target, a
 
 This does mean that channeled or toggled spells have somewhat of an advantage, but in reality Kog'Maw reigns champion, it seems.
 
+## Running the Program
+
+The Spellimobulator is a text-based python script and requires a command line and Python to run.
+You can run the main program by entering ```python sm_runner.py``` into a command line
+The tests can be ran by entering ```python sm_tests.py``` into a command line
+
+All damaging spells and their DPS's are output by default so users can look through spells by champion in alphabetical order.
+
 ## Known Inaccuracies
 
 * Mana costs are not taken into consideration for 'efficiency'. This is because spells with no cost, energy costs, and health costs would have an unfair advantage.

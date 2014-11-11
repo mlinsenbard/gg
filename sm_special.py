@@ -3,7 +3,11 @@
 # not to be considered in efficiency calculations,
 # and functions that deal with the special condition
 # spells
-from sm import AD,AP,CDR
+
+# Used to access 3-tuple variables by name
+AD = 0
+AP = 1
+CDR = 2
 
 #############
 # FUNCTIONS #
@@ -77,7 +81,7 @@ def sm_sp8(values):
 	return dps
 
 # Glacial Storm
-def sm_sp8(values):
+def sm_sp9(values):
 	# spell can be infinitely channeled
 	# so just give dps
 	dps = 160 + values[AP]*0.25
@@ -342,7 +346,7 @@ def sm_sp39(values):
 # Twin Fang
 def sm_sp40(values):
 	# AP Scaling changes with level
-	damage = 155 * values[AP]*0.55
+	damage = 155 + values[AP]*0.55
 	cd = 5
 	dps = damage / (cd - (cd * (values[CDR]/100)))
 	return dps
@@ -585,7 +589,7 @@ def sm_sp68(values):
 # Electro Harpoon
 def sm_sp69(values):
 	# Calculate 2 harpoon hits for damage
-	damage = (145 * values[AP]*0.4) * 2
+	damage = (145 + values[AP]*0.4) * 2
 	cd = 10
 	dps = damage / (cd - (cd * (values[CDR]/100)))
 	return dps
@@ -726,14 +730,18 @@ def sm_sp84(values):
 	# damage = dps * channel time
 	damage = (180 + values[AP]*0.45) * 5
 	cd = 6
-	dps = damage / (cd - (cd * (values[CDR]/100)))
+	# if the CD is below channel time, just return dps
+	if (cd - (cd * (values[CDR]/100))) < 5:
+		dps = (180 + values[AP]*0.45)
+	else:
+		dps = damage / (cd - (cd * (values[CDR]/100)))
 	return dps
 
 # Crowstorm
 def sm_sp85(values):
 	# does damage over time
 	# damage = dps * active time
-	damage = (325 * values[AP]*0.45) * 5
+	damage = (325 + values[AP]*0.45) * 5
 	cd = 130
 	dps = damage / (cd - (cd * (values[CDR]/100)))
 	return dps
@@ -760,10 +768,117 @@ def sm_sp87(values):
 def sm_sp88(values):
 	# spell does damage over time
 	# scaling var scraped from api is inconsistent
-	damage = 260 + values[AP]
+	damage = 230 + values[AP]*0.6
 	cd = 16
 	dps = damage / (cd - (cd * (values[CDR]/100)))
 	return dps
+
+# Ebb and Flow
+def sm_sp89(values):
+	# api scraping failed to get correct ratio
+	damage = 230 + values[AP]*0.5
+	cd = 10
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Equinox
+def sm_sp90(values):
+	# spell procs twice
+	damage = (230 + values[AP]*0.4) * 2
+	cd = 14
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Howling Gale
+def sm_sp91(values):
+	# does base damage plus addt'l damage per sec charged
+	# damage = base + (dmg per charge * 3)
+	damage = 160 + values[AP]*0.35 + ((35 + values[AP]*0.1) * 3)
+	cd = 10
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Zephyr
+def sm_sp92(values):
+	# api scraping obtained incorrect ap ratio
+	damage = 280 + values[AP]*0.5
+	cd = 12
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Hate Spike
+def sm_sp93(values):
+	# INcorrect ratios
+	damage = 90 + values[AP]*0.55 + values[AD]*0.7
+	cd = 1.5
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Help, Pix!
+def sm_sp94(values):
+	# Incorrect ratios
+	damage = 200 + values[AP]*0.4
+	cd = 10
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Orb of Deception
+def sm_sp95(values):
+	# Spell does damage on cast & orb's return
+	# no matter the range, target gets hit twice if stationary
+	damage = (140 + values[AP]*0.35) * 2
+	cd = 7
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Fox-Fire
+def sm_sp96(values):
+	# Spell does damage 3 times, with last 2 ticks doing 30% damage
+	# damage = base + (base*0.3)*2
+	damage = (140 + values[AP]*0.35) + (((140 + values[AP]*0.35) * 0.3) * 2)
+	cd = 5
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Spirit Rush
+def sm_sp97(values):
+	# can be casted 3 times
+	# damage = base * 3
+	damage = (150 + values[AP]*0.3) * 3
+	cd = 80
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Ethereal Chains
+def sm_sp98(values):
+	# damages twice
+	damage = (140 + values[AP]*0.5) * 2
+	cd = 10
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Mimic
+def sm_sp99(values):
+	# Different damage depending on mimic'd spell
+	# Sigil
+	sigil = 300 + values[AP]*0.65
+	# Chains
+	chains = (300 + values[AP]*0.65) * 2
+	# Distorion
+	dist = 450 + values[AP]*0.98
+	damage = max(sigil, chains, dist)
+	cd = 24
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Mystic Shot
+def sm_sp100(values):
+	# Scraped ratios incorred
+	damage = 115 + values[AD] + values[AP]*0.4
+	cd = 4
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
 
 
 SPECIAL_SPELLS = {  
@@ -792,9 +907,9 @@ SPECIAL_SPELLS = {
 	"Absolute Zero": sm_sp23,
 	"Chomp": sm_sp24,
 	"Buckshot": sm_sp25,
-	"Tormented Soil": sm_sp26
+	"Tormented Soil": sm_sp26,
 	"Soul Shackles": sm_sp27,
-	"Boomerang Throw / Boulder Toss": sm_sp28
+	"Boomerang Throw / Boulder Toss": sm_sp28,
 	"Hyper / Wallop": sm_sp29,
 	"Burnout": sm_sp30,
 	"Cull the Meek": sm_sp31,
@@ -855,51 +970,18 @@ SPECIAL_SPELLS = {
 	"Shadow Assault": sm_sp86,
 	"Sonic Wave / Resonating Strike": sm_sp87,
 	"Explosive Shot": sm_sp88,
-	Dragon Strike
-	Demacian Standard
-	Cataclysm
-	Aqua Prison
-	Ebb and Flow
-	Tidal Wave
-	Starcall
-	Equinox
-	Baleful Strike
-	Dark Matter
-	Primordial Burst
-	Howling Gale
-	Zephyr
-	Dredge Line
-	Riptide
-	Depth Charge
-	Hate Spike
-	Ravage
-	Agony's Embrace
-	Barrel Roll
-	Drunken Rage
-	Body Slam
-	Explosive Cask
-	Razor Shuriken
-	Shadow Slash
-	Death Mark
-	Vault Breaker
-	Excessive Force
-	Assault and Battery
-	Glitterlance
-	Help, Pix!
-	Orb of Deception
-	Fox-Fire
-	Charm
-	Spirit Rush
-	Blinding Assault
-	Vault
-	Sigil of Malice
-	Distortion
-	Ethereal Chains
-	Mimic
-	Mystic Shot
-	Essence Flux
-	Arcane Shift
-	Trueshot Barrage
+	"Ebb and Flow": sm_sp89,
+	"Equinox": sm_sp90,
+	"Howling Gale": sm_sp91,
+	"Zephyr": sm_sp92,
+	"Hate Spike": sm_sp93,
+	"Help, Pix!": sm_sp94,
+	"Orb of Deception": sm_sp95,
+	"Fox-Fire": sm_sp96,
+	"Spirit Rush": sm_sp97,
+	"Ethereal Chains": sm_sp98,
+	"Mimic": sm_sp99,
+	"Mystic Shot": sm_sp100,
 }
 
 DISREGARDED_SPELLS = [ 
@@ -1212,6 +1294,9 @@ DISREGARDED_SPELLS = [
 	"Spinning Axe",
 	"Noxian Diplomacy",
 	"Three Talon Strike",
+	"Excessive Force",
 	# Damage done is % hp
 	"Null Zone",
+	"Agony's Embrace",
+	"Drunken Rage",
 ]

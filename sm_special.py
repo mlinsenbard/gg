@@ -653,6 +653,117 @@ def sm_sp75(values):
 	dps = damage / (cd - (cd * (values[CDR]/100)))
 	return dps
 
+# Void Rift
+def sm_sp76(values):
+	# has 2 damage points
+	# damage = initial + explosion
+	damage = (110 + values[AP]*0.25) + (165 + values[AP]*0.38)
+	cd = 15
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Poison Trail
+def sm_sp77(values):
+	# can be toggled on indefinitely
+	# dps = damage done every second
+	dps = 70 + values[AP]*0.3
+	return dps
+
+# Piercing Arrow
+def sm_sp78(values):
+	# Damage and AD ratio based on cast time
+	# Assume max damage happens
+	damage = 235 + values[AD]*1.6
+	cd = 8 
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Judgment
+def sm_sp79(values):
+	# does dps for 3s
+	# damage = dps * s
+	damage = (120 + values[AD]*1.1) * 3
+	cd = 9
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Pale Cascade
+def sm_sp80(values):
+	# damage = damage per orb * 3
+	damage = (70 + values[AP]*0.2) * 3
+	cd = 10
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Alpha Strike
+def sm_sp81(values):
+	# Assume alpha strike is being used on 1 champion
+	damage = 165 + values[AD]
+	cd = 14
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Creeping Death
+def sm_sp82(values):
+	# does dps for 6s
+	# damage = dps * time active
+	damage = 80 + values[AP]*0.2
+	cd = 12
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Whirling Death
+def sm_sp83(values):
+	# hits twice (see demo video on website)
+	damage = (375 + values[AD]*1.1) * 2
+	cd = 90
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Drain
+def sm_sp84(values):
+	# not recognized as damaging spell
+	# damage = dps * channel time
+	damage = (180 + values[AP]*0.45) * 5
+	cd = 6
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Crowstorm
+def sm_sp85(values):
+	# does damage over time
+	# damage = dps * active time
+	damage = (325 * values[AP]*0.45) * 5
+	cd = 130
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Shadow Assault
+def sm_sp86(values):
+	# damage dealt at beginning and end of ability
+	# damage = damage * 2
+	damage = (220 + values[AD]*0.9) * 2
+	cd = 55
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Sonic Wave / Resonating Strike
+def sm_sp87(values):
+	# spell is activated twice
+	# damage = damage * 2
+	damage = (170 + values[AD]*0.9) * 2
+	cd = 7
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
+
+# Explosive Shot
+def sm_sp88(values):
+	# spell does damage over time
+	# scaling var scraped from api is inconsistent
+	damage = 260 + values[AP]
+	cd = 16
+	dps = damage / (cd - (cd * (values[CDR]/100)))
+	return dps
 
 
 SPECIAL_SPELLS = {  
@@ -731,77 +842,19 @@ SPECIAL_SPELLS = {
 	"Noxious Trap": sm_sp73,
 	"H-28G Evolution Turret": sm_sp74,
 	"UPGRADE!!!": sm_sp75,
-	Volley
-	Enchanted Crystal Arrow
-	Plasma Fission
-	Void Rift
-	Tectonic Disruption
-	Life Form Disintegration Ray
-	Poison Trail
-	Fling
-	Piercing Arrow
-	Hail of Arrows
-	Chain of Corruption
-	Decisive Strike
-	Judgment
-	Demacian Justice
-	Crescent Strike
-	Pale Cascade
-	Lunar Rush
-	Alpha Strike
-	Neurotoxin / Venomous Bite
-	Volatile Spiderling / Skittering Frenzy
-	Venomous Bite / Neurotoxin
-	Skittering Frenzy / Volatile Spiderling
-	Pulverize
-	Headbutt
-	Bouncing Blades
-	Sinister Steel
-	Shunpo
-	Death Lotus
-	Mace of Spades
-	Creeping Death
-	Siphon of Destruction
-	Children of the Grave
-	Caustic Spittle
-	Void Ooze
-	Living Artillery
-	Dark Flight
-	Blades of Torment
-	Massacre
-	Spinning Axe
-	Stand Aside
-	Whirling Death
-	Drain
-	Dark Wind
-	Crowstorm
-	Noxian Diplomacy
-	Rake
-	Shadow Assault
-	Three Talon Strike
-	Audacious Charge
-	Crescent Sweep
-	Sonic Wave / Resonating Strike
-	Tempest / Cripple
-	Dragon's Rage
-	Shatter
-	Dazzle
-	Radiance
-	Call of the Void
-	Null Zone
-	Malefic Visions
-	Nether Grasp
-	Ice Shard
-	Ring of Frost
-	Glacial Path
-	Frozen Tomb
-	Rocket Jump
-	Explosive Shot
-	Buster Shot
-	Transfusion
-	Sanguine Pool
-	Tides of Blood
-	Hemoplague
+	"Void Rift": sm_sp76,
+	"Poison Trail": sm_sp77,
+	"Piercing Arrow": sm_sp78,
+	"Judgment": sm_sp79,
+	"Pale Cascade": sm_sp80,
+	"Alpha Strike": sm_sp81,
+	"Creeping Death": sm_sp82,
+	"Whirling Death": sm_sp83,
+	"Drain": sm_sp84,
+	"Crowstorm": sm_sp85,
+	"Shadow Assault": sm_sp86,
+	"Sonic Wave / Resonating Strike": sm_sp87,
+	"Explosive Shot": sm_sp88,
 	Dragon Strike
 	Demacian Standard
 	Cataclysm
@@ -917,6 +970,7 @@ DISREGARDED_SPELLS = [
 	"Death's Caress",
 	"Cryptic Gaze",
 	"Deceive",
+	"Decisive Strike",
 	"Decompose",
 	"Defensive Ball Curl",
 	"Denting Blows",
@@ -1150,4 +1204,14 @@ DISREGARDED_SPELLS = [
 	"Crippling Strike",
 	# Doesnt deal damage
 	"Apprehend",
+	# attack modifier
+	"Mace of Spades",
+	# Dependent on enemy champ
+	"Children of the Grave",
+	# attack modifier
+	"Spinning Axe",
+	"Noxian Diplomacy",
+	"Three Talon Strike",
+	# Damage done is % hp
+	"Null Zone",
 ]

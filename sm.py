@@ -99,7 +99,7 @@ def mostEfficient(values):
 					# Run normal data scraping & calculations
 					dps = getNukeDPS(s, values)
 
-				# DEBUG PRINTOUT
+				# print spell name and dps
 				print s['name']
 				print dps
 

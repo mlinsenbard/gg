@@ -49,8 +49,8 @@ def sm_sp4(values):
 
 # Valkyrie
 def sm_sp5(values):
-	# Damage every .5s for 2.5s
-	damage = (180 + values[AP]*0.4) * 5
+	# Damage every sec for 2.5s
+	damage = (180 + values[AP]*0.4) * 2.5
 	cd = 14
 	dps = damage / (cd - (cd * (values[CDR]/100)))
 	return dps
@@ -129,8 +129,8 @@ def sm_sp14(values):
 
 # Boomerang Blade
 def sm_sp15(values):
-	# Damage on 1st hit and 2nd hit
-	damage = (105 + values[AD]*1.1) + ((105 + values[AD]*1.1) * .15)
+	# Damage on 1st hit and 2nd hit (15% reduced)
+	damage = (105 + values[AD]*1.1) + ((105 + values[AD]*1.1) * .85)
 	cd = 9
 	dps = damage / (cd - (cd * (values[CDR]/100)))
 	return dps
@@ -1130,7 +1130,7 @@ DISREGARDED_SPELLS = [
 	"King's Tribute",
 	"League of Draven",
 	"Lightslinger",
-	"Living Vengeance",
+	"Vengeance",
 	"Living Shadow",
 	"Loaded Dice",
 	"Mana Barrier",
